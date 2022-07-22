@@ -26,10 +26,10 @@ Gem::Specification.new do |s|
   s.add_dependency('http-cookie', '>= 1.0.2', '< 2.0')
   s.add_dependency('mime-types', '>= 1.16', '< 4.0')
   s.add_dependency('netrc', '~> 0.8')
+  s.platform = RUBY_PLATFORM
   if (RUBY_PLATFORM == "x64-mingw-ucrt" || RUBY_PLATFORM == "x64-mingw32")
     # ffi is needed for RestClient::Windows::RootCerts
     s.add_dependency('ffi', '~> 1.15.5')
-    s.platform = RUBY_PLATFORM
   end
 
   s.required_ruby_version = '>= 2.0.0'
