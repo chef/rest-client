@@ -15,7 +15,6 @@ Gem::Specification.new do |s|
   s.test_files = `git ls-files -z spec/`.split("\0")
   s.homepage = 'https://github.com/rest-client/rest-client'
   s.summary = 'Simple HTTP and REST client for Ruby, inspired by microframework syntax for specifying actions.'
-
   s.add_development_dependency('webmock', '~> 2.0')
   s.add_development_dependency('rspec', '~> 3.0')
   s.add_development_dependency('pry', '~> 0')
@@ -27,6 +26,11 @@ Gem::Specification.new do |s|
   s.add_dependency('http-cookie', '>= 1.0.2', '< 2.0')
   s.add_dependency('mime-types', '>= 1.16', '< 4.0')
   s.add_dependency('netrc', '~> 0.8')
+  if (RUBY_PLATFORM == "x64-mingw-ucrt" || RUBY_PLATFORM == "x64-mingw32")
+    # ffi is needed for RestClient::Windows::RootCerts
+    s.add_dependency('ffi', '~> 1.15.5')
+    s.platform = RUBY_PLATFORM
+  end
 
   s.required_ruby_version = '>= 2.0.0'
 end
