@@ -1,14 +1,12 @@
-require 'cgi'
-require 'http-cookie'
+require "cgi"
+require "http-cookie"
 
 module RestClient
-
   module AbstractResponse
-
     attr_reader :net_http_res, :request, :start_time, :end_time, :duration
 
     def inspect
-      raise NotImplementedError.new('must override in subclass')
+      raise NotImplementedError.new("must override in subclass")
     end
 
     # Logger from the request, potentially nil.
@@ -20,10 +18,10 @@ module RestClient
       return unless log
 
       code = net_http_res.code
-      res_name = net_http_res.class.to_s.gsub(/\ANet::HTTP/, '')
-      content_type = (net_http_res['Content-type'] || '').gsub(/;.*\z/, '')
+      res_name = net_http_res.class.to_s.gsub(/\ANet::HTTP/, "")
+      content_type = (net_http_res["Content-type"] || "").gsub(/;.*\z/, "")
 
-      log << "# => #{code} #{res_name} | #{content_type} #{size} bytes, #{sprintf('%.2f', duration)}s\n"
+      log << "# => #{code} #{res_name} | #{content_type} #{size} bytes, #{sprintf("%.2f", duration)}s\n"
     end
 
     # HTTP status code
@@ -55,10 +53,8 @@ module RestClient
       @start_time = start_time
       @end_time = Time.now
 
-      if @start_time
-        @duration = @end_time - @start_time
-      else
-        @duration = nil
+      @duration = if @start_time
+        @end_time - @start_time
       end
 
       # prime redirection history
@@ -116,7 +112,7 @@ module RestClient
         self
       when 301, 302, 307
         case request.method
-        when 'get', 'head'
+        when "get", "head"
           check_max_redirects
           follow_redirection(&block)
         else
@@ -131,12 +127,12 @@ module RestClient
     end
 
     def to_i
-      warn('warning: calling Response#to_i is not recommended')
+      warn("warning: calling Response#to_i is not recommended")
       super
     end
 
     def description
-      "#{code} #{STATUSES[code]} | #{(headers[:content_type] || '').gsub(/;.*$/, '')} #{size} bytes\n"
+      "#{code} #{STATUSES[code]} | #{(headers[:content_type] || "").gsub(/;.*$/, "")} #{size} bytes\n"
     end
 
     # Follow a redirection response by making a new HTTP request to the
@@ -177,17 +173,15 @@ module RestClient
     # @return [Hash]
     #
     def self.beautify_headers(headers)
-      headers.inject({}) do |out, (key, value)|
-        key_sym = key.tr('-', '_').downcase.to_sym
+      headers.each_with_object({}) do |(key, value), out|
+        key_sym = key.tr("-", "_").downcase.to_sym
 
         # Handle Set-Cookie specially since it cannot be joined by comma.
-        if key.downcase == 'set-cookie'
-          out[key_sym] = value
+        out[key_sym] = if key.downcase == "set-cookie"
+          value
         else
-          out[key_sym] = value.join(', ')
+          value.join(", ")
         end
-
-        out
       end
     end
 
@@ -200,7 +194,6 @@ module RestClient
     #   existing hash that should not be modified.
     #
     def _follow_redirection(new_args, &block)
-
       # parse location header and merge into existing URL
       url = headers[:location]
 
@@ -210,7 +203,7 @@ module RestClient
       end
 
       # handle relative redirects
-      unless url.start_with?('http')
+      unless url.start_with?("http")
         url = URI.parse(request.url).merge(url).to_s
       end
       new_args[:url] = url

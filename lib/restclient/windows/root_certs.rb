@@ -1,5 +1,5 @@
-require 'openssl'
-require 'ffi'
+require "openssl"
+require "ffi"
 
 # Adapted from Puppet, Copyright (c) Puppet Labs Inc,
 # licensed under the Apache License, Version 2.0.
@@ -24,13 +24,13 @@ class RestClient::Windows::RootCerts
   # @yieldparam cert [OpenSSL::X509::Certificate] each root certificate
   # @api public
   def each
-    @roots.each {|cert| yield cert}
+    @roots.each { |cert| yield cert }
   end
 
   # Returns a new instance.
   # @return [RestClient::Windows::RootCerts] object constructed from current root certificates
   def self.instance
-    new(self.load_certs)
+    new(load_certs)
   end
 
   # Returns an array of root certificates.
@@ -45,7 +45,7 @@ class RestClient::Windows::RootCerts
     ptr = FFI::Pointer::NULL
     store = CertOpenSystemStoreA(nil, "ROOT")
     begin
-      while (ptr = CertEnumCertificatesInStore(store, ptr)) and not ptr.null?
+      while (ptr = CertEnumCertificatesInStore(store, ptr)) and !ptr.null?
         context = CERT_CONTEXT.new(ptr)
         cert_buf = context[:pbCertEncoded].read_bytes(context[:cbCertEncoded])
         begin
@@ -69,10 +69,10 @@ class RestClient::Windows::RootCerts
   class CERT_CONTEXT < FFI::Struct
     layout(
       :dwCertEncodingType, :dword,
-      :pbCertEncoded,      :pointer,
-      :cbCertEncoded,      :dword,
-      :pCertInfo,          :pointer,
-      :hCertStore,         :handle
+      :pbCertEncoded, :pointer,
+      :cbCertEncoded, :dword,
+      :pCertInfo, :pointer,
+      :hCertStore, :handle
     )
   end
 

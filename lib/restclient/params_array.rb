@@ -1,5 +1,4 @@
 module RestClient
-
   # The ParamsArray class is used to represent an ordered list of [key, value]
   # pairs. Use this when you need to include a key multiple times or want
   # explicit control over parameter ordering.
@@ -43,7 +42,7 @@ module RestClient
     private
 
     def process_input(array)
-      array.map {|v| process_pair(v) }
+      array.map { |v| process_pair(v) }
     end
 
     # A pair may be:
