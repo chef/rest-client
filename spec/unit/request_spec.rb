@@ -502,7 +502,6 @@ describe RestClient::Request, :include_helpers do
       expect { @request.send(:transmit, @uri, "req", nil) }.to raise_error(RestClient::Exceptions::OpenTimeout, "Timed out connecting to server")
     end
 
-
   it "class method execute wraps constructor" do
     req = double("rest request")
     # Allow both hash and keyword argument styles to be accepted
@@ -616,7 +615,6 @@ describe RestClient::Request, :include_helpers do
       expect(req.net_http_object("host", 80).proxy_address).to eq("127.0.0.1")
     end
   end
-
 
   describe "logging" do
     it "logs a get request" do
@@ -750,7 +748,6 @@ describe RestClient::Request, :include_helpers do
 
       @request.send(:transmit, @uri, "req", nil)
     end
-
 
     it "disable timeout by setting it to nil" do
       @request = RestClient::Request.new(method: :put, url: "http://some/resource", payload: "payload", read_timeout: nil, open_timeout: nil)

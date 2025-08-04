@@ -240,7 +240,6 @@ Content-Type: text/plain\r
       expect(RestClient::Payload.generate(params)).to be_kind_of(RestClient::Payload::Multipart)
     end
 
-
     it "should return data if no of the above" do
       expect(RestClient::Payload.generate("data")).to be_kind_of(RestClient::Payload::Base)
     end

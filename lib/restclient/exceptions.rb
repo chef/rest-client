@@ -99,7 +99,6 @@ module RestClient
     416 => ["RequestedRangeNotSatisfiable"],
   }.freeze
 
-
   # This is the base RestClient exception class. Rescue it if you want to
   # catch any exception that your request might raise
   # You can get the status code by e.http_code, or see anything about the
@@ -170,7 +169,7 @@ module RestClient
   #
   module Exceptions
     # Map http status codes to the corresponding exception class
-    EXCEPTIONS_MAP = {}
+    EXCEPTIONS_MAP = {} # rubocop: disable Style/MutableConstant
   end
 
   # Create HTTP status exception classes

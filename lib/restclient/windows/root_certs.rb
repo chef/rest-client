@@ -61,7 +61,6 @@ class RestClient::Windows::RootCerts
     certs
   end
 
-
   # typedef ULONG_PTR HCRYPTPROV_LEGACY;
   # typedef void *HCERTSTORE;
 
