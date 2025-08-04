@@ -64,7 +64,7 @@ module RestClient
       new(args.is_a?(Hash) ? args : { **args }).execute(& block)
     end
 
-    SSLOptionList = %w{client_cert client_key ca_file ca_path cert_store
+    SSL_OPTION_LIST = %w{client_cert client_key ca_file ca_path cert_store
                        version ciphers verify_callback verify_callback_warnings}.freeze
 
     def inspect
@@ -134,7 +134,7 @@ module RestClient
         @ssl_opts[:verify_ssl] = OpenSSL::SSL::VERIFY_PEER
       end
 
-      SSLOptionList.each do |key|
+      SSL_OPTION_LIST.each do |key|
         source_key = ("ssl_" + key).to_sym
         if args.key?(source_key)
           @ssl_opts[key.to_sym] = args.fetch(source_key)
@@ -171,7 +171,7 @@ module RestClient
     def verify_ssl
       @ssl_opts.fetch(:verify_ssl)
     end
-    SSLOptionList.each do |key|
+    SSL_OPTION_LIST.each do |key|
       define_method("ssl_" + key) do
         @ssl_opts[key.to_sym]
       end

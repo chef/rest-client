@@ -61,25 +61,25 @@ alias_task(:test, :spec)
 
 ############################
 
-WindowsPlatforms = %w{ x64-mingw32 x64-mingw-ucrt ruby }.freeze
+WINDOWS_PLATFORMS = %w{ x64-mingw32 x64-mingw-ucrt ruby }.freeze
 
 namespace :all do
 
   desc "Build rest-client #{RestClient::VERSION} for all platforms"
   task build: ["ruby:build"] + \
-    WindowsPlatforms.map { |p| "windows:#{p}:build" }
+    WINDOWS_PLATFORMS.map { |p| "windows:#{p}:build" }
 
   desc "Create tag v#{RestClient::VERSION} and for all platforms build and " \
     "push rest-client #{RestClient::VERSION} to Rubygems"
   task release: ["build", "ruby:release"] + \
-    WindowsPlatforms.map { |p| "windows:#{p}:push" }
+    WINDOWS_PLATFORMS.map { |p| "windows:#{p}:push" }
 
 end
 
 namespace :windows do
   spec_path = File.join(File.dirname(__FILE__), "rest-client.windows.gemspec")
 
-  WindowsPlatforms.each do |platform|
+  WINDOWS_PLATFORMS.each do |platform|
     namespace platform do
       gem_filename = "rest-client-#{RestClient::VERSION}-#{platform}.gem"
       base = File.dirname(__FILE__)

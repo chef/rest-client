@@ -17,24 +17,24 @@ describe RestClient::Request do
         url: "https://www.mozilla.org",
         ssl_ca_file: ca_file
       )
-      
+
       # Verify the ssl_ca_file property is properly set on the request object
       expect(request.ssl_ca_file).to eq(ca_file)
-      
+
       # Create a mock Net::HTTP object and verify transmit sets the properties correctly
-      net = double('net::http')
-      http = double('net::http connection')
+      net = double("net::http")
+      http = double("net::http connection")
       uri = URI.parse("https://www.mozilla.org")
-      
+
       expect(request).to receive(:net_http_object).with(uri.hostname, uri.port).and_return(net)
       expect(net).to receive(:use_ssl=).with(true)
       expect(net).to receive(:verify_mode=)
       expect(net).to receive(:ca_file=).with(ca_file)
       expect(net).to receive(:start).and_yield(http)
-      expect(http).to receive(:request).and_raise(OpenSSL::SSL::SSLError.new('test failure'))
-      
+      expect(http).to receive(:request).and_raise(OpenSSL::SSL::SSLError.new("test failure"))
+
       # Just call transmit to verify the ca_file is set (don't need to complete the request)
-      expect { request.send(:transmit, uri, double('req'), nil) }.to raise_error(OpenSSL::SSL::SSLError)
+      expect { request.send(:transmit, uri, double("req"), nil) }.to raise_error(OpenSSL::SSL::SSLError)
     end
 
     it "correctly sets up the ca_path for verification" do
@@ -44,24 +44,24 @@ describe RestClient::Request do
         url: "https://www.mozilla.org",
         ssl_ca_path: ca_path
       )
-      
+
       # Verify the ssl_ca_path property is properly set on the request object
       expect(request.ssl_ca_path).to eq(ca_path)
-      
+
       # Create a mock Net::HTTP object and verify transmit sets the properties correctly
-      net = double('net::http')
-      http = double('net::http connection')
+      net = double("net::http")
+      http = double("net::http connection")
       uri = URI.parse("https://www.mozilla.org")
-      
+
       expect(request).to receive(:net_http_object).with(uri.hostname, uri.port).and_return(net)
       expect(net).to receive(:use_ssl=).with(true)
       expect(net).to receive(:verify_mode=)
       expect(net).to receive(:ca_path=).with(ca_path)
       expect(net).to receive(:start).and_yield(http)
-      expect(http).to receive(:request).and_raise(OpenSSL::SSL::SSLError.new('test failure'))
-      
+      expect(http).to receive(:request).and_raise(OpenSSL::SSL::SSLError.new("test failure"))
+
       # Just call transmit to verify the ca_path is set (don't need to complete the request)
-      expect { request.send(:transmit, uri, double('req'), nil) }.to raise_error(OpenSSL::SSL::SSLError)
+      expect { request.send(:transmit, uri, double("req"), nil) }.to raise_error(OpenSSL::SSL::SSLError)
     end
 
     # TODO: deprecate and remove RestClient::SSLCertificateNotVerified and just
