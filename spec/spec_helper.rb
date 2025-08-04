@@ -1,7 +1,7 @@
-require 'webmock/rspec'
-require 'rest-client'
+require "webmock/rspec"
+require "rest-client"
 
-require_relative './helpers'
+require_relative "helpers"
 
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 RSpec.configure do |config|
@@ -11,7 +11,7 @@ RSpec.configure do |config|
   # order dependency and want to debug it, you can fix the order by providing
   # the seed, which is printed after each run.
   #     --seed 1234
-  config.order = 'random'
+  config.order = "random"
 
   # always run with ruby warnings enabled
   # TODO: figure out why this is so obscenely noisy (rspec bug?)

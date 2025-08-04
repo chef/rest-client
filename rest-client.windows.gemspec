@@ -6,14 +6,20 @@
 # Windows platforms like x86-mingw32.
 #
 
-s = eval(File.read(File.join(File.dirname(__FILE__), 'rest-client.gemspec')))
+s = eval(File.read(File.join(File.dirname(__FILE__), "rest-client.gemspec")))
 
-platform = ENV['BUILD_PLATFORM'] || RUBY_PLATFORM
+platform = ENV["BUILD_PLATFORM"] || RUBY_PLATFORM
+
+# Set the name to match what Gemfile expects
+s.name = "rest-client.windows"
+
+# Clear the executables to avoid conflicts with the main gem
+s.executables = []
 
 case platform
 when /(mingw|mswin)/
   # ffi is needed for RestClient::Windows::RootCerts
-  s.add_dependency('ffi', '~> 1.15')
+  s.add_dependency("ffi", "~> 1.15")
   s.platform = platform
 end
 
