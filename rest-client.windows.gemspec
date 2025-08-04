@@ -23,7 +23,6 @@ s.executables = []
 
 platform = ENV["BUILD_PLATFORM"] || RUBY_PLATFORM
 
-
 case platform
 when /(mingw|mswin)/
   # ffi is needed for RestClient::Windows::RootCerts
