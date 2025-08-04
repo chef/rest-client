@@ -11,19 +11,17 @@
 gemspec_path = File.join(File.dirname(__FILE__), "rest-client.gemspec")
 s = Gem::Specification.load(gemspec_path) || raise("Could not load gemspec at #{gemspec_path}")
 
-platform = ENV["BUILD_PLATFORM"] || RUBY_PLATFORM
-
 # Set the name to match what Gemfile expects
 s.name = "rest-client.windows"
 s.license = "MIT"
 
 # Set the name to match what Gemfile expects
-s.name = 'rest-client.windows'
+s.name = "rest-client.windows"
 
 # Clear the executables to avoid conflicts with the main gem
 s.executables = []
 
-platform = ENV['BUILD_PLATFORM'] || RUBY_PLATFORM
+platform = ENV["BUILD_PLATFORM"] || RUBY_PLATFORM
 
 
 case platform

@@ -20,10 +20,10 @@ Gem::Specification.new do |s|
   s.add_development_dependency("rdoc", ">= 2.4.2", "< 6.0")
   s.add_development_dependency("cookstyle", "~> 8.2")
 
-  s.add_dependency('http-accept', '~> 2.1.0')
-  s.add_dependency('http-cookie', '>= 1.0.2', '< 2.0')
-  s.add_dependency('mime-types', '>= 1.16', '< 4.0')
-  s.add_dependency('netrc', '~> 0.8')
-  
+  s.add_dependency("http-accept", "~> 2.1.0")
+  s.add_dependency("http-cookie", ">= 1.0.2", "< 2.0")
+  s.add_dependency("mime-types", ">= 1.16", "< 4.0")
+  s.add_dependency("netrc", "~> 0.8")
+
   s.required_ruby_version = ">= 3.1"
 end
