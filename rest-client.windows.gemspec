@@ -11,6 +11,9 @@ s = eval(File.read(File.join(File.dirname(__FILE__), 'rest-client.gemspec')))
 # Set the name to match what Gemfile expects
 s.name = 'rest-client.windows'
 
+# Clear the executables to avoid conflicts with the main gem
+s.executables = []
+
 platform = ENV['BUILD_PLATFORM'] || RUBY_PLATFORM
 
 case platform
