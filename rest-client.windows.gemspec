@@ -11,19 +11,22 @@
 gemspec_path = File.join(File.dirname(__FILE__), "rest-client.gemspec")
 s = Gem::Specification.load(gemspec_path) || raise("Could not load gemspec at #{gemspec_path}")
 
-platform = ENV["BUILD_PLATFORM"] || RUBY_PLATFORM
-
 # Set the name to match what Gemfile expects
 s.name = "rest-client.windows"
 s.license = "MIT"
 
+# Set the name to match what Gemfile expects
+s.name = "rest-client.windows"
+
 # Clear the executables to avoid conflicts with the main gem
 s.executables = []
+
+platform = ENV["BUILD_PLATFORM"] || RUBY_PLATFORM
 
 case platform
 when /(mingw|mswin)/
   # ffi is needed for RestClient::Windows::RootCerts
-  s.add_dependency("ffi", "~> 1.15")
+  s.add_dependency "ffi", ">= 1.15.5", "<= 1.16.3"
   s.platform = platform
 end
 
