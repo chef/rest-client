@@ -28,5 +28,5 @@ Gem::Specification.new do |s|
   s.add_dependency("netrc", "~> 0.8")
   s.add_dependency "ffi", ">= 1.15.5", "<= 1.16.3" if Gem.win_platform?
 
-  s.required_ruby_version = ">= 3.1"
+  s.required_ruby_version = ">= 3.0"
 end
