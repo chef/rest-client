@@ -61,25 +61,27 @@ alias_task(:test, :spec)
 
 ############################
 
-WindowsPlatforms = %w{ x64-mingw32 x64-mingw-ucrt ruby }
+# Only support modern UCRT platforms, no legacy mingw32/mswin32
+WindowsUCRTPlatforms = %w{x64-mingw-ucrt ruby}
 
 namespace :all do
 
   desc "Build rest-client #{RestClient::VERSION} for all platforms"
   task :build => ['ruby:build'] + \
-    WindowsPlatforms.map {|p| "windows:#{p}:build"}
+    WindowsUCRTPlatforms.map {|p| "windows:#{p}:build"}
 
   desc "Create tag v#{RestClient::VERSION} and for all platforms build and " \
     "push rest-client #{RestClient::VERSION} to Rubygems"
   task :release => ['build', 'ruby:release'] + \
-    WindowsPlatforms.map {|p| "windows:#{p}:push"}
+    WindowsUCRTPlatforms.map {|p| "windows:#{p}:push"}
 
 end
 
 namespace :windows do
-  spec_path = File.join(File.dirname(__FILE__), 'rest-client.windows.gemspec')
+  # UCRT platform builds using the dedicated UCRT gemspec
+  ucrt_spec_path = File.join(File.dirname(__FILE__), 'rest-client-windows-mingw-ucrt.gemspec')
 
-  WindowsPlatforms.each do |platform|
+  WindowsUCRTPlatforms.each do |platform|
     namespace platform do
       gem_filename = "rest-client-#{RestClient::VERSION}-#{platform}.gem"
       base = File.dirname(__FILE__)
@@ -92,7 +94,7 @@ namespace :windows do
         begin
           ENV['BUILD_PLATFORM'] = platform
 
-          sh("gem build -V #{spec_path}") do |ok, res|
+          sh("gem build -V #{ucrt_spec_path}") do |ok, res|
             if ok
               FileUtils.mkdir_p(pkg_dir)
               FileUtils.mv(File.join(base, gem_filename), pkg_dir)

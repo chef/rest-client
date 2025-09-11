@@ -27,6 +27,12 @@ Gem::Specification.new do |s|
   s.add_dependency('http-cookie', '>= 1.0.2', '< 2.0')
   s.add_dependency('mime-types', '>= 1.16', '< 4.0')
   s.add_dependency('netrc', '~> 0.8')
+  s.add_dependency('base64')
 
-  s.required_ruby_version = '>= 2.0.0'
+  # Add FFI dependency for Windows platforms
+  if Gem.win_platform?
+    s.add_dependency('ffi', '>= 1.15.5', '< 1.18.0')
+  end
+
+  s.required_ruby_version = '>= 3.1.0'
 end

@@ -19,7 +19,7 @@ Lint/UnusedBlockArgument:
 
 Security/Eval:
   Exclude:
-  - rest-client.windows.gemspec
+  - rest-client-windows-mingw-ucrt.gemspec
 
 Lint/HandleExceptions:
   Exclude:

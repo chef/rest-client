@@ -60,7 +60,7 @@ module RestClient
     attr_accessor :redirection_history
 
     def self.execute(args, & block)
-      new(args).execute(& block)
+      new(**args).execute(& block)
     end
 
     SSLOptionList = %w{client_cert client_key ca_file ca_path cert_store
@@ -605,7 +605,7 @@ module RestClient
     def parse_url_with_auth!(url)
       uri = URI.parse(url)
 
-      if uri.hostname.nil?
+      if uri.hostname.nil? || uri.hostname.empty?
         raise URI::InvalidURIError.new("bad URI(no host provided): #{url}")
       end
 
