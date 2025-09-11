@@ -61,7 +61,7 @@ alias_task(:test, :spec)
 
 ############################
 
-WINDOWS_PLATFORMS = %w{ x64-mingw32 x64-mingw-ucrt ruby }.freeze
+WINDOWS_PLATFORMS = %w{ x64-mingw-ucrt ruby }.freeze
 
 namespace :all do
 
@@ -77,7 +77,7 @@ namespace :all do
 end
 
 namespace :windows do
-  spec_path = File.join(File.dirname(__FILE__), "rest-client.windows.gemspec")
+  spec_path = File.join(File.dirname(__FILE__), "rest-client-windows-mingw-ucrt.gemspec")
 
   WINDOWS_PLATFORMS.each do |platform|
     namespace platform do

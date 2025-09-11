@@ -17,6 +17,11 @@ RSpec.configure do |config|
   # TODO: figure out why this is so obscenely noisy (rspec bug?)
   # config.warnings = true
 
+  # Reset RestClient.log before each test to avoid test pollution
+  config.before(:each) do
+    RestClient.log = nil
+  end
+
   # add helpers
   config.include Helpers, :include_helpers
 
