@@ -6,6 +6,19 @@ require "zlib"
 describe RestClient::Request do
   before(:all) do
     WebMock.disable!
+    # Check if httpbin service is available
+    begin
+      basic_url = ENV.fetch("HTTPBIN_URL", default_httpbin_url)
+      test_response = RestClient.get("#{basic_url}status/200", timeout: 5)
+      @httpbin_available = test_response.code == 200
+    rescue RestClient::Exception, Net::TimeoutError, Errno::ECONNREFUSED => e
+      @httpbin_available = false
+      puts "WARNING: httpbin service not available (#{e.class}: #{e.message}). Integration tests will be skipped."
+    end
+  end
+
+  before(:each) do
+    skip "httpbin service not available" unless @httpbin_available
   end
 
   after(:all) do
@@ -25,16 +38,20 @@ describe RestClient::Request do
 
   def httpbin(suffix = "")
     url = ENV.fetch("HTTPBIN_URL", default_httpbin_url)
-    unless url.end_with?("/")
-      url += "/"
-    end
+    url += "/" unless url.end_with?("/")
 
     url + suffix
   end
 
   def execute_httpbin(suffix, opts = {})
     opts = { url: httpbin(suffix) }.merge(opts)
-    RestClient::Request.execute(opts)
+    begin
+      RestClient::Request.execute(opts)
+    rescue RestClient::ServiceUnavailable => e
+      raise unless e.response&.code == 503
+
+      skip "httpbin service temporarily unavailable (503 Service Unavailable)"
+    end
   end
 
   def execute_httpbin_json(suffix, opts = {})
@@ -48,9 +65,9 @@ describe RestClient::Request do
     end
 
     it "receives cookies on 302" do
-      expect {
+      expect do
         execute_httpbin("cookies/set?foo=bar", method: :get, max_redirects: 0)
-      }.to raise_error(RestClient::Found) { |ex|
+      end.to raise_error(RestClient::Found) { |ex|
         expect(ex.http_code).to eq 302
         expect(ex.response.cookies["foo"]).to eq "bar"
       }
@@ -63,10 +80,10 @@ describe RestClient::Request do
     end
 
     it "handles quote wrapped cookies" do
-      expect {
+      expect do
         execute_httpbin("cookies/set?foo=" + CGI.escape('"bar:baz"'),
           method: :get, max_redirects: 0)
-      }.to raise_error(RestClient::Found) { |ex|
+      end.to raise_error(RestClient::Found) { |ex|
         expect(ex.http_code).to eq 302
         expect(ex.response.cookies["foo"]).to eq '"bar:baz"'
       }
@@ -79,9 +96,9 @@ describe RestClient::Request do
       data = execute_httpbin_json("basic-auth/#{user}/#{pass}", method: :get, user: user, password: pass)
       expect(data).to eq({ "authenticated" => true, "user" => user })
 
-      expect {
+      expect do
         execute_httpbin_json("basic-auth/#{user}/#{pass}", method: :get, user: user, password: "badpass")
-      }.to raise_error(RestClient::Unauthorized) { |ex|
+      end.to raise_error(RestClient::Unauthorized) { |ex|
         expect(ex.http_code).to eq 401
       }
     end
