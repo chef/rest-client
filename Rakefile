@@ -77,7 +77,7 @@ namespace :all do
 end
 
 namespace :windows do
-  spec_path = File.join(File.dirname(__FILE__), "rest-client-windows-mingw-ucrt.gemspec")
+  spec_path = File.join(File.dirname(__FILE__), "rest-client-universal-mingw-ucrt.gemspec")
 
   WINDOWS_PLATFORMS.each do |platform|
     namespace platform do

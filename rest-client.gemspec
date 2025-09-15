@@ -40,9 +40,6 @@ spec = Gem::Specification.new do |s|
   s.add_dependency("mime-types", ">= 1.16", "< 4.0")
   s.add_dependency("netrc", "~> 0.8")
 
-  # Add FFI dependency for Windows platforms
-  s.add_dependency("ffi", ">= 1.15.5", "< 1.18.0") if Gem.win_platform?
-
   s.required_ruby_version = ">= 3.1.0"
 end
 
