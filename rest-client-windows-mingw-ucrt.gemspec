@@ -13,14 +13,11 @@ spec = Gem::Specification.load(main_gemspec_path)
 spec.license = "MIT"
 
 # Get the platform from environment or default to current Ruby platform
-platform = ENV["BUILD_PLATFORM"] || RUBY_PLATFORM
+spec.platform = ENV["BUILD_PLATFORM"] || RUBY_PLATFORM
 
 # Only modify the spec for Windows platforms
-case platform
+case spec.platform
 when /(mingw-ucrt|mingw32|mswin32)/
-  # Set the platform for Windows builds
-  spec.platform = platform
-
   # Ensure FFI dependency is present for Windows platforms
   # (This might already be handled in the main gemspec, but we ensure it here)
   unless spec.dependencies.any? { |dep| dep.name == "ffi" }
