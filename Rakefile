@@ -77,11 +77,14 @@ namespace :all do
 end
 
 namespace :windows do
-  spec_path = File.join(File.dirname(__FILE__), "rest-client-windows-mingw-ucrt.gemspec")
+  # We removed the platform-specific gemspec files and now use the main gemspec for all builds
+  # Having multiple gemspec files caused more problems than it solved.
+  # Chef-19 was blowing up during builds because it could not find the platform-specific gemspec files.
+  spec_path = File.join(File.dirname(__FILE__), "rest-client.gemspec")
 
   WINDOWS_PLATFORMS.each do |platform|
     namespace platform do
-      gem_filename = "rest-client-#{RestClient::VERSION}-#{platform}.gem"
+      gem_filename = "rest-client-#{RestClient::VERSION}.gem"
       base = File.dirname(__FILE__)
       pkg_dir = File.join(base, "pkg")
       gem_file_path = File.join(pkg_dir, gem_filename)
