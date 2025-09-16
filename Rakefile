@@ -61,7 +61,7 @@ alias_task(:test, :spec)
 
 ############################
 
-WINDOWS_PLATFORMS = %w{ x64-mingw-ucrt ruby }.freeze
+WINDOWS_PLATFORMS = %w{ universal mingw-ucrt }.freeze
 
 namespace :all do
 
