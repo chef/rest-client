@@ -34,7 +34,6 @@ spec = Gem::Specification.new do |s|
   s.add_development_dependency("webmock", "~> 2.0")
 
   s.add_dependency("base64")
-  s.add_dependency("fiddle")
   s.add_dependency("http-accept", "~> 2.1.0")
   s.add_dependency("http-cookie", ">= 1.0.2", "< 2.0")
   s.add_dependency("mime-types", ">= 1.16", "< 4.0")
