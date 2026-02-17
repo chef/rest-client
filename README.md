@@ -900,3 +900,7 @@ public domain.
 
 Code for reading Windows root certificate store derived from work by Puppet;
 used under terms of the Apache License, Version 2.0.
+
+# Copyright
+
+See [COPYRIGHT.md](./COPYRIGHT.md).
